@@ -8,4 +8,7 @@
 
 class_name: TestGuy
 modules:
-    enabled: [Filesystem, TestHelper]
+ enabled: [Filesystem, TestHelper, Phalcon1]
+ config:
+  Phalcon1:
+  application: app/config/application.php		
