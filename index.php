@@ -1,11 +1,12 @@
 <?php
 require 'app/controllers/WineController.php';
+require 'libraries/WineLibrary.php';
 use Phalcon\Mvc\Micro\Collection as MicroCollection;
 $app = new Phalcon\Mvc\Micro();
 $wine = new MicroCollection();
-
+$wineLibrary = new WineLibrary();
 //Set the main handler. ie. a controller instance
-$wine->setHandler(new WineController());
+$wine->setHandler(new WineController($wineLibrary));
 
 $wine->get('/api/v4/wine', 'getAllWines');
 

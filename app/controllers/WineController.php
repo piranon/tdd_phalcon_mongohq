@@ -1,14 +1,10 @@
 <?php
 class WineController {
+	function __construct(WineLibrary $wineLibrary){
+		$this->wineLibrary = $wineLibrary;
+	}
 	function getAllWines() {
-		$mongohq_url = "https://api.mongohq.com/databases/wine/collections/australian/documents?_apikey=9guoo8ndq9hj5y1ur1w1";
-		$tuCurl = curl_init(); 
-		curl_setopt($tuCurl, CURLOPT_URL, $mongohq_url); 
-		curl_setopt($tuCurl, CURLOPT_PORT , 443); 
-		curl_setopt($tuCurl, CURLOPT_RETURNTRANSFER, 1); 
-		$tuData = curl_exec($tuCurl); 
-		curl_close($tuCurl); 
-	
+		$tuData = $this->wineLibrary->getAll();
 	  $response = new Phalcon\Http\Response();
 		$response->setContentType('application/json');
 		$response->setContent($tuData);
