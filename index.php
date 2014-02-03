@@ -1,5 +1,5 @@
 <?php
-require 'WineController.php';
+require 'app/controllers/WineController.php';
 use Phalcon\Mvc\Micro\Collection as MicroCollection;
 $app = new Phalcon\Mvc\Micro();
 $wine = new MicroCollection();

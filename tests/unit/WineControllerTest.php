@@ -1,5 +1,5 @@
 <?php
-require 'WineController.php';
+require 'app/controllers/WineController.php';
 class WineControllerTest extends \PHPUnit_Framework_TestCase
 {
     protected function setUp()
