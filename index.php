@@ -1,10 +1,12 @@
 <?php
 require 'app/controllers/WineController.php';
 require 'libraries/WineLibrary.php';
+require 'libraries/CurlAdaptor.php';
 use Phalcon\Mvc\Micro\Collection as MicroCollection;
 $app = new Phalcon\Mvc\Micro();
 $wine = new MicroCollection();
-$wineLibrary = new WineLibrary();
+$curlAdaptor = new CurlAdaptor();
+$wineLibrary = new WineLibrary($curlAdaptor);
 //Set the main handler. ie. a controller instance
 $wine->setHandler(new WineController($wineLibrary));
 
