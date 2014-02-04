@@ -1,15 +1,30 @@
 <?php
-require 'app/controllers/WineController.php';
-require 'libraries/WineLibrary.php';
-require 'libraries/CurlAdaptor.php';
-use Phalcon\Mvc\Micro\Collection as MicroCollection;
-$app = new Phalcon\Mvc\Micro();
-$wine = new MicroCollection();
-$curlAdaptor = new CurlAdaptor();
-$wineLibrary = new WineLibrary($curlAdaptor);
-//Set the main handler. ie. a controller instance
-$wine->setHandler(new WineController($wineLibrary));
+$loader = new \Phalcon\Loader();
+$loader->registerDirs(
+    array(
+        'app/controllers/',
+        'libraries/'
+    )
+)->register();
 
+$app = new Phalcon\Mvc\Micro();
+$wine = new Phalcon\Mvc\Micro\Collection();
+
+$di = new Phalcon\DI\FactoryDefault();
+$di->set('curlAdaptor', new CurlAdaptor());
+$di->set('wineLibrary', array(
+    'className' => 'WineLibraryMongoHq',
+    'arguments' => array(
+        array('type' => 'service', 'name' => 'curlAdaptor')
+    )
+));
+$di->set('wineController', array(
+    'className' => 'WineController',
+    'arguments' => array(
+        array('type' => 'service', 'name' => 'wineLibrary')
+    )
+));
+$wine->setHandler($di->get('wineController'));
 $wine->get('/api/v4/wine', 'getAllWines');
 
 $app->notFound(function () use ($app) {
